@@ -1,0 +1,58 @@
+[
+  {
+    "id": "my-first-regression-script",
+    "description": "",
+    "name": "My first regression script",
+    "keyword": "Feature",
+    "line": 1,
+    "elements": [
+      {
+        "id": "my-first-regression-script;login-page",
+        "description": "",
+        "name": "Login page",
+        "keyword": "Scenario",
+        "line": 3,
+        "steps": [
+          {
+            "result": {
+              "duration": 310431353,
+              "status": "passed"
+            },
+            "name": "launch browser",
+            "keyword": "Given ",
+            "line": 4,
+            "match": {
+              "location": "CucumberDefs.print()"
+            }
+          },
+          {
+            "result": {
+              "duration": 60342,
+              "status": "passed"
+            },
+            "name": "user enters credential details",
+            "keyword": "When ",
+            "line": 5,
+            "match": {
+              "location": "CucumberDefs.print2()"
+            }
+          },
+          {
+            "result": {
+              "duration": 56711,
+              "status": "passed"
+            },
+            "name": "login is successful",
+            "keyword": "Then ",
+            "line": 6,
+            "match": {
+              "location": "CucumberDefs.print3()"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "cucumber.feature"
+  }
+]

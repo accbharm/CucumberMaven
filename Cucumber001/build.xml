@@ -1,0 +1,83 @@
+<!-- basic project setup: project name, relative directory, and default ant 
+	target -->
+<project name="	Cucumber" basedir="." default="runcukes">
+	<property name="ws.home" value="${basedir}" />
+	<!-- the location of all the jar files we downloaded -->
+	<property name="jars" value="C:\Users\accbharm\Documents\Jars" />
+
+
+	<target name="classpath">
+		<path id="classpath">
+			<!-- we can set multiple filesets if our jar files are distributed in 
+				multiple folders -->
+			<fileset dir="${jars}">
+				<include name="**/*.jar" />
+			</fileset>
+
+		</path>
+	</target>
+
+	<!-- the ant job for compiling our code -->
+
+	<target name="compile" depends="classpath">
+		<mkdir dir="target/classes" />
+		<javac srcdir="src/main/java/Cucumber/Cucumber001/" destdir="target/classes"
+			classpathref="classpath" includeantruntime="false" />
+	</target>
+
+	<target name="compile-test" depends="compile,classpath">
+		<mkdir dir="target/test-classes" />
+		<javac srcdir="src/test/java/Cucumber/Cucumber001/" destdir="target/test-classes"
+			classpathref="classpath" includeantruntime="false" />
+	</target>
+
+
+
+
+
+	<!-- the ant job for running our tests -->
+	<target name="runcukes" depends="compile-test">
+		<mkdir dir="target/cucumber-junit-report" />
+		<java classname="cucumber.api.cli.Main" fork="true" failonerror="false"
+			resultproperty="cucumber.exitstatus">
+			<classpath refid="classpath" />
+			<arg value="--format" />
+			<!-- creates our junit report -->
+			<arg value="junit:target/cucumber-junit-report.xml" />
+			<arg value="--format" />
+			<arg value="pretty" />
+			<arg value="--format" />
+			<!-- creates our cucumber html friendly report -->
+			<arg value="html:target/cucumber-html-report" />
+			<arg value="--glue" />
+			<!-- identifies the package (folder) where the cucumber definitions live -->
+			<arg value="." />
+			<!-- identifies the folder where the feature files live (looks in all 
+				subfolders) -->
+			<arg value="src\test\resources" />
+
+		</java>
+
+		<!-- writes out information to junit report -->
+		<junitreport todir="target/cucumber-junit-report">
+			<fileset dir="target">
+				<include name="cucumber-junit-report.xml" />
+			</fileset>
+			<report format="frames" todir="target/cucumber-junit-report" />
+		</junitreport>
+
+		<!-- checks our exit status, and determines success or failure -->
+		<fail message="Cucumber failed">
+			<condition>
+				<not>
+					<equals arg1="${cucumber.exitstatus}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+	<!-- the ant job for cleaning up our environment -->
+	<target name="clean">
+		<delete dir="target" />
+	</target>
+</project>
